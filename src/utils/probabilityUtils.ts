@@ -2,7 +2,7 @@ import { randomNormal } from "d3";
 import { minmax, rn } from "./numberUtils";
 
 /**
- * Creates a random number between min and max (inclusive).
+ * Creates a random number between min and max (inclusive). If only one argument is provided, it will be considered as max and min will be 0. If no arguments are provided, it returns a random float between 0 and 1.
  * @param {number} min - minimum value
  * @param {number} max - maximum value
  * @return {number} random integer between min and max
