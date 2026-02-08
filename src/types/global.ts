@@ -62,7 +62,6 @@ declare global {
     icons: string[][];
     cost: number[];
   };
-  var COA: any;
   var notes: any[];
   var style: {
     burgLabels: { [key: string]: { [key: string]: string } };
@@ -74,7 +73,6 @@ declare global {
   var layerIsOn: (layerId: string) => boolean;
   var drawRoute: (route: any) => void;
   var invokeActiveZooming: () => void;
-  var COArenderer: { trigger: (id: string, coa: any) => void };
   var FlatQueue: any;
 
   var tip: (
