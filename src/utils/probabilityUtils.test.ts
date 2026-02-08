@@ -1,15 +1,15 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  rand,
-  P,
+  biased,
   each,
   gauss,
+  generateSeed,
+  getNumberInRange,
+  P,
   Pint,
   ra,
+  rand,
   rw,
-  biased,
-  getNumberInRange,
-  generateSeed,
 } from "./probabilityUtils";
 
 describe("rand", () => {
