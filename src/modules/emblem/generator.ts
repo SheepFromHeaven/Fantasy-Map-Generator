@@ -5,14 +5,14 @@ import { lineWeights } from "./lineWeights";
 import { ordinaries } from "./ordinaries";
 import { positions } from "./positions";
 import { shields } from "./shields";
-import { tinctures } from "./tinctures";
+import { createTinctures } from "./tinctures";
 import { typeMapping } from "./typeMapping";
 
 declare global {
-  var COA: COAGeneratorModule;
+  var COA: EmblemGeneratorModule;
 }
 
-export interface CoatOfArmsCharge {
+export interface EmblemCharge {
   charge: string;
   t: string;
   p: string;
@@ -24,7 +24,7 @@ export interface CoatOfArmsCharge {
   divided?: string;
 }
 
-export interface CoatOfArmsOrdinary {
+export interface EmblemOrdinary {
   ordinary: string;
   t: string;
   line?: string;
@@ -32,28 +32,28 @@ export interface CoatOfArmsOrdinary {
   above?: boolean;
 }
 
-export interface CoatOfArmsDivision {
+export interface EmblemDivision {
   division: string;
   t: string;
   line?: string;
 }
 
-export interface CoatOfArms {
+export interface Emblem {
   t1: string;
   shield?: string;
-  division?: CoatOfArmsDivision;
-  ordinaries?: CoatOfArmsOrdinary[];
-  charges?: CoatOfArmsCharge[];
+  division?: EmblemDivision;
+  ordinaries?: EmblemOrdinary[];
+  charges?: EmblemCharge[];
   custom?: boolean;
 }
 
-class COAGeneratorModule {
+class EmblemGeneratorModule {
   generate(
-    parent: CoatOfArms | null,
+    parent: Emblem | null,
     kinship: number | null,
     dominion: number | null,
     type?: string,
-  ): CoatOfArms {
+  ): Emblem {
     if (!parent || parent.custom) {
       parent = null;
       kinship = 0;
@@ -67,7 +67,7 @@ class COAGeneratorModule {
       ? parent!.t1
       : this.getTincture("field", usedTinctures, null);
     if (t1.includes("-")) usedPattern = t1;
-    const coa: CoatOfArms = { t1 };
+    const coa: Emblem = { t1 };
 
     const addCharge = P(usedPattern ? 0.5 : 0.93); // 80% for charge
     const linedOrdinary =
@@ -157,8 +157,8 @@ class COAGeneratorModule {
       })();
       const chargeDataEntry = charges.data[charge] || {};
 
-      let p = "e";
-      let t = "gules";
+      let p: string;
+      let t: string;
 
       const ordinaryData = ordinaries.data[ordinary!];
       const tOrdinary = coa.ordinaries ? coa.ordinaries[0].t : null;
@@ -214,7 +214,7 @@ class COAGeneratorModule {
       )
         t = chargeDataEntry.natural;
 
-      const item: CoatOfArmsCharge = { charge: charge, t, p };
+      const item: EmblemCharge = { charge: charge, t, p };
       const colors = chargeDataEntry.colors || 1;
       if (colors > 1)
         item.t2 = P(0.25)
@@ -226,7 +226,7 @@ class COAGeneratorModule {
           : t;
       coa.charges = [item];
 
-      if (p === "ABCDEFGHIKL" && P(0.95)) {
+      if (p === "ABCDEFGHIJKL" && P(0.95)) {
         // add central charge if charge is in bordure
         coa.charges[0].charge = rw(charges.conventional);
         const chargeNew = this.selectCharge(charges.single);
@@ -333,7 +333,7 @@ class COAGeneratorModule {
       const t = invert
         ? this.getTincture("division", usedTinctures, coa.t1)
         : parent.t1;
-      const canton: CoatOfArmsOrdinary = { ordinary: "canton", t };
+      const canton: EmblemOrdinary = { ordinary: "canton", t };
 
       if (coa.charges) {
         for (let i = coa.charges.length - 1; i >= 0; i--) {
@@ -379,6 +379,7 @@ class COAGeneratorModule {
     RoT: string | null,
   ): string {
     const base = RoT ? (RoT.includes("-") ? RoT.split("-")[1] : RoT) : null;
+    const tinctures = createTinctures();
 
     let type = rw(tinctures[element]); // metals, colours, stains, patterns
     if (RoT && type !== "patterns")
@@ -407,7 +408,7 @@ class COAGeneratorModule {
   private defineChargeAttributes(
     ordinary: string | null,
     division: string | null,
-    c: CoatOfArmsCharge,
+    c: EmblemCharge,
   ): void {
     // define size
     c.size = (c.size || 1) * this.getSize(c.p, ordinary, division);
@@ -422,6 +423,7 @@ class COAGeneratorModule {
 
   private getType(t: string): string | undefined {
     const tinc = t.includes("-") ? t.split("-")[1] : t;
+    const tinctures = createTinctures();
     if (Object.keys(tinctures.metals).includes(tinc)) return "metals";
     if (Object.keys(tinctures.colours).includes(tinc)) return "colours";
     if (Object.keys(tinctures.stains).includes(tinc)) return "stains";
@@ -433,6 +435,7 @@ class COAGeneratorModule {
   }
 
   private typeOf(tinc: string): string {
+    const tinctures = createTinctures();
     if (Object.keys(tinctures.metals).includes(tinc)) return "metals";
     if (Object.keys(tinctures.colours).includes(tinc)) return "colours";
     if (Object.keys(tinctures.stains).includes(tinc)) return "stains";
@@ -502,6 +505,7 @@ class COAGeneratorModule {
       pattern = `${pattern}_of_${this.selectCharge(charges.semy)}`;
 
     if (!t1 || !t2) {
+      const tinctures = createTinctures();
       const startWithMetal = P(0.7);
       t1 = startWithMetal ? rw(tinctures.metals) : rw(tinctures.colours);
       t2 = startWithMetal ? rw(tinctures.colours) : rw(tinctures.metals);
@@ -520,6 +524,7 @@ class COAGeneratorModule {
   private replaceTincture(t: string): string {
     const type = this.getType(t);
     let n: string | null = null;
+    const tinctures = createTinctures();
     while (!n || n === t) {
       n = rw(
         tinctures[type as keyof typeof tinctures] as Record<string, number>,
@@ -568,11 +573,11 @@ class COAGeneratorModule {
     return "heater";
   }
 
-  toString(coa: CoatOfArms): string {
+  toString(coa: Emblem): string {
     return JSON.stringify(coa).replaceAll("#", "%23");
   }
 
-  copy(coa: CoatOfArms): CoatOfArms {
+  copy(coa: Emblem): Emblem {
     return JSON.parse(JSON.stringify(coa));
   }
 
@@ -581,6 +586,6 @@ class COAGeneratorModule {
   }
 }
 
-export default COAGeneratorModule;
+export default EmblemGeneratorModule;
 
-window.COA = new COAGeneratorModule();
+window.COA = new EmblemGeneratorModule();

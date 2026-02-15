@@ -8,7 +8,7 @@ import { shieldSize } from "./size";
 import { templates } from "./templates";
 
 declare global {
-  var COArenderer: COARenderModule;
+  var COArenderer: EmblemRenderModule;
 }
 
 interface Division {
@@ -37,7 +37,7 @@ interface Charge {
   p: number[]; // position on shield from 1 to 9
 }
 
-interface CoatOfArms {
+interface Emblem {
   shield: string;
   t1: string;
   division?: Division;
@@ -46,7 +46,7 @@ interface CoatOfArms {
   custom?: boolean; // if true, coa will not be rendered
 }
 
-class COARenderModule {
+class EmblemRenderModule {
   get shieldPaths() {
     return shieldPaths;
   }
@@ -87,7 +87,7 @@ class COARenderModule {
     return fetched;
   }
 
-  private async getCharges(coa: CoatOfArms, id: string, shieldPath: string) {
+  private async getCharges(coa: Emblem, id: string, shieldPath: string) {
     const charges = coa.charges
       ? coa.charges.map((charge) => charge.charge)
       : []; // add charges
@@ -122,7 +122,7 @@ class COARenderModule {
     return 1;
   }
 
-  private getPatterns(coa: CoatOfArms, id: string) {
+  private getPatterns(coa: Emblem, id: string) {
     const isPattern = (string: string) => string.includes("-");
     const patternsToAdd = [];
     if (coa.t1.includes("-")) patternsToAdd.push(coa.t1); // add field pattern
@@ -165,7 +165,7 @@ class COARenderModule {
       .join("");
   }
 
-  private async draw(id: string, coa: CoatOfArms) {
+  private async draw(id: string, coa: Emblem) {
     const { shield = "heater", division, ordinaries = [], charges = [] } = coa;
 
     const ordinariesRegular = ordinaries.filter((o) => !o.above);
@@ -243,7 +243,7 @@ class COARenderModule {
       if (ordinary.ordinary === "bordure")
         svg += `<path d="${shieldPath}" fill="none" stroke="${fill}" stroke-width="16.7%"/>`;
       else if (ordinary.ordinary === "orle")
-        svg += `<path d="${shieldPath}" fill="none" stroke="${fill}" stroke-width="5%" transform="scale(.85)" transform-origin="center">`;
+        svg += `<path d="${shieldPath}" fill="none" stroke="${fill}" stroke-width="5%" transform="scale(.85)" transform-origin="center"/>`;
       else svg += this.getTemplate(ordinary.ordinary, ordinary.line);
       return `${svg}</g>`;
     };
@@ -340,13 +340,13 @@ class COARenderModule {
   }
 
   // render coa if does not exist
-  async trigger(id: string, coa: CoatOfArms) {
+  async trigger(id: string, coa: Emblem) {
     if (!coa) return console.warn(`Emblem ${id} is undefined`);
     if (coa.custom) return console.warn("Cannot render custom emblem", coa);
     if (!document.getElementById(id)) return this.draw(id, coa);
   }
 
-  async add(type: string, i: number, coa: CoatOfArms, x: number, y: number) {
+  async add(type: string, i: number, coa: Emblem, x: number, y: number) {
     const id = `${type}COA${i}`;
     const g: HTMLElement = document.getElementById(
       `${type}Emblems`,
@@ -360,4 +360,4 @@ class COARenderModule {
     if (layerIsOn("toggleEmblems")) this.trigger(id, coa);
   }
 }
-window.COArenderer = new COARenderModule();
+window.COArenderer = new EmblemRenderModule();

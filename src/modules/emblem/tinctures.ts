@@ -1,6 +1,6 @@
 import { P } from "../../utils";
 
-export const tinctures = {
+export const createTinctures = () => ({
   field: { metals: 3, colours: 4, stains: +P(0.03), patterns: 1 },
   division: { metals: 5, colours: 8, stains: +P(0.03), patterns: 1 },
   charge: { metals: 2, colours: 3, stains: +P(0.05), patterns: 0 },
@@ -40,4 +40,4 @@ export const tinctures = {
     maily: 2,
     honeycombed: 1,
   },
-};
+});
