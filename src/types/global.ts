@@ -46,6 +46,7 @@ declare global {
   var defs: Selection<SVGDefsElement, unknown, null, undefined>;
   var coastline: Selection<SVGGElement, unknown, null, undefined>;
   var lakes: Selection<SVGGElement, unknown, null, undefined>;
+  var provs: Selection<SVGGElement, unknown, null, undefined>;
   var getColorScheme: (scheme: string | null) => (t: number) => string;
   var getColor: (height: number, scheme: (t: number) => string) => string;
   var svgWidth: number;
@@ -80,10 +81,12 @@ declare global {
   var tip: (
     message: string,
     autoHide?: boolean,
-    type?: "info" | "warning" | "error",
+    type?: "info" | "warn" | "error" | "success",
+    timeout?: number,
   ) => void;
   var locked: (settingId: string) => boolean;
   var unlock: (settingId: string) => void;
   var $: (selector: any) => any;
   var scale: number;
+  var changeFont: () => void;
 }
