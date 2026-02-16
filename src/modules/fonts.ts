@@ -1,6 +1,7 @@
 import { byId } from "../utils";
 
 declare global {
+  var declareFont: (font: FontDefinition) => void;
   var getUsedFonts: (svg: SVGSVGElement) => FontDefinition[];
   var loadFontsAsDataURI: (
     fonts: FontDefinition[],
@@ -269,16 +270,16 @@ window.fonts = [
   },
 ];
 
-declareDefaultFonts(); // execute once on load
-
-function declareFont(font: FontDefinition) {
+window.declareFont = (font: FontDefinition) => {
   const { family, src, ...rest } = font;
   addFontOption(family);
 
   if (!src) return;
   const fontFace = new FontFace(family, src, { ...rest, display: "block" });
   document.fonts.add(fontFace);
-}
+};
+
+declareDefaultFonts(); // execute once on load
 
 function declareDefaultFonts() {
   fonts.forEach((font) => {
