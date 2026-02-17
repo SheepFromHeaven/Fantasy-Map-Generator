@@ -1072,7 +1072,7 @@ class MarkersModule {
     );
   }
 
-  private addSeaMonster(id: string, cell: number) {
+  private addSeaMonster(id: string, _cell: number) {
     const name = `${Names.getCultureShort(0)} Monster`;
     const length = gauss(25, 10, 10, 100);
     const legend = `Old sailors tell stories of a gigantic sea monster inhabiting these dangerous waters. Rumors say it can be ${length} ${heightUnit.value} long.`;
@@ -1312,7 +1312,7 @@ class MarkersModule {
     );
   }
 
-  private addPirates(id: string, cell: number) {
+  private addPirates(id: string, _cell: number) {
     const name = "Pirates";
     const legend = "Pirate ships have been spotted in these waters.";
     notes.push({ id, name, legend });
@@ -1376,7 +1376,7 @@ class MarkersModule {
     );
   }
 
-  private addRuins(id: string, cell: number) {
+  private addRuins(id: string, _cell: number) {
     const types = [
       "City",
       "Town",
@@ -1430,7 +1430,7 @@ class MarkersModule {
     );
   }
 
-  private addCircus(id: string, cell: number) {
+  private addCircus(id: string, _cell: number) {
     const adjectives = [
       "Fantastical",
       "Wondrous",
@@ -1520,7 +1520,7 @@ class MarkersModule {
     );
   }
 
-  private addMigration(id: string, cell: number) {
+  private addMigration(id: string, _cell: number) {
     const animals = [
       "Antelopes",
       "Apes",
@@ -1629,7 +1629,7 @@ class MarkersModule {
     return cells.i.filter((i) => !this.occupied[i] && cells.biome[i] === 1);
   }
 
-  private addMirage(id: string, cell: number) {
+  private addMirage(id: string, _cell: number) {
     const adjectives = [
       "Entrancing",
       "Diaphanous",
@@ -1710,7 +1710,7 @@ class MarkersModule {
     );
   }
 
-  private addRift(id: string, cell: number) {
+  private addRift(id: string, _cell: number) {
     const types = [
       "Demonic",
       "Interdimensional",
@@ -1741,7 +1741,7 @@ class MarkersModule {
     );
   }
 
-  private addDisturbedBurial(id: string, cell: number) {
+  private addDisturbedBurial(id: string, _cell: number) {
     const name = "Disturbed Burial";
     const legend =
       "A burial site has been disturbed in this area, causing the dead to rise and attack the living.";
