@@ -952,7 +952,7 @@ class MarkersModule {
       : Names.getCulture(cells.culture[cell]);
     notes.push({
       id,
-      name: `${getAdjective(proper)} Lighthouse${name}`,
+      name: `${getAdjective(proper)} Lighthouse`,
       legend: `A lighthouse to serve as a beacon for ships in the open sea.`,
     });
   }
@@ -984,7 +984,7 @@ class MarkersModule {
       : Names.getCulture(cells.culture[cell]);
     notes.push({
       id,
-      name: `${getAdjective(proper)} Waterfall${name}`,
+      name: `${getAdjective(proper)} Waterfall`,
       legend: `${ra(descriptions)}`,
     });
   }
