@@ -1635,7 +1635,7 @@ class MarkersModule {
       "Diaphanous",
       "Illusory",
       "Distant",
-      "Perculiar",
+      "Peculiar",
     ];
 
     const mirageAdjective = ra(adjectives);
