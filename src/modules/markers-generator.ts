@@ -530,7 +530,6 @@ class MarkersModule {
   }
 
   private listVolcanoes({ cells }: PackedGraph) {
-    console.log("Listing volcanoes...", this);
     return cells.i.filter((i) => !this.occupied[i] && cells.h[i] >= 70);
   }
 
