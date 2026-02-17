@@ -975,7 +975,7 @@ class MarkersModule {
       "The rapids of an exceptionally beautiful waterfall.",
       "An impressive waterfall has cut through the land.",
       "The cascades of a stunning waterfall.",
-      "A river drops down from a great height forming a wonderous waterfall.",
+      "A river drops down from a great height forming a wondrous waterfall.",
       "A breathtaking waterfall cuts through the landscape.",
     ];
 
