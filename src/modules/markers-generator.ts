@@ -1485,7 +1485,7 @@ class MarkersModule {
         !this.occupied[i] &&
         cells.burg[i] &&
         burgs[cells.burg[i]].population! < 20 &&
-        burgs[cells.burg[i]].population! < 5,
+        burgs[cells.burg[i]].population! > 5,
     );
   }
 
