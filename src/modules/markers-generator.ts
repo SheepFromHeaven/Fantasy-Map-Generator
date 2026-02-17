@@ -1433,7 +1433,7 @@ class MarkersModule {
   private addCircus(id: string, cell: number) {
     const adjectives = [
       "Fantastical",
-      "Wonderous",
+      "Wondrous",
       "Incomprehensible",
       "Magical",
       "Extraordinary",
