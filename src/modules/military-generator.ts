@@ -15,7 +15,7 @@ declare global {
   var Military: MilitaryModule;
 }
 
-interface MilitaryRegiment {
+export interface MilitaryRegiment {
   i: number;
   t: number; // total troops
   name: string;
@@ -32,6 +32,7 @@ interface MilitaryRegiment {
   icon?: string;
   children?: MilitaryRegiment[]; // merged regiments
   state: number;
+  angle?: number;
 }
 
 interface Platoon {
@@ -487,7 +488,7 @@ class MilitaryModule {
     for (let i = notes.length - 1; i >= 0; i--) {
       if (notes[i].id.startsWith("regiment")) notes.splice(i, 1);
     }
-    
+
     // get regiments for each state
     valid.forEach((s) => {
       s.military = createRegiments(s.temp.platoons, s);
@@ -601,12 +602,12 @@ class MilitaryModule {
     const conflict = campaign ? ` during the ${campaign.name}` : "";
     const legend = `Regiment was formed in ${year} ${options.era}${conflict}. ${station}${troops}`;
     const id = `regiment${s.i}-${r.i}`;
-    const existing = notes.find(n => n.id === id);
+    const existing = notes.find((n) => n.id === id);
     if (existing) {
       existing.name = r.name;
       existing.legend = legend;
     } else {
-      notes.push({id, name: r.name, legend});
+      notes.push({ id, name: r.name, legend });
     }
   }
 
