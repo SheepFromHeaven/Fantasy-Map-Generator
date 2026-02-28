@@ -487,6 +487,7 @@ class MilitaryModule {
     // remove all existing regiment notes before regenerating
     for (let i = notes.length - 1; i >= 0; i--) {
       if (notes[i].id.startsWith("regiment")) notes.splice(i, 1);
+    }
 
     // get regiments for each state
     valid.forEach((s) => {
@@ -621,10 +622,10 @@ class MilitaryModule {
     )
       return "👑"; // "Royal" regiment based in capital
     const mainUnit = Object.entries(r.u).sort((a, b) => b[1] - a[1])[0][0]; // unit with more troops in regiment
+    const unit = options.military.find(
       (u: { name: string; icon: string }) => u.name === mainUnit,
     );
     return unit ? unit.icon : "⚔️";
-    return unit.icon;
   }
 }
 window.Military = new MilitaryModule();
