@@ -487,7 +487,6 @@ class MilitaryModule {
     // remove all existing regiment notes before regenerating
     for (let i = notes.length - 1; i >= 0; i--) {
       if (notes[i].id.startsWith("regiment")) notes.splice(i, 1);
-    }
 
     // get regiments for each state
     valid.forEach((s) => {
