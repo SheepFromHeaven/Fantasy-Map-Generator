@@ -622,9 +622,9 @@ class MilitaryModule {
     )
       return "👑"; // "Royal" regiment based in capital
     const mainUnit = Object.entries(r.u).sort((a, b) => b[1] - a[1])[0][0]; // unit with more troops in regiment
-    const unit = options.military.find(
-      (u: { name: string }) => u.name === mainUnit,
+      (u: { name: string; icon: string }) => u.name === mainUnit,
     );
+    return unit ? unit.icon : "⚔️";
     return unit.icon;
   }
 }
